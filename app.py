@@ -22,7 +22,8 @@ class ModelDefaultOpt():
         self.low_type = 'pants'
         self.output = './output'
         self.video = './video'
-        self.filename = 'video'
+        self.filename = 'video'    
+        self.body_tex= './test_data/images/body_tex/body_tex.jpg'
 
 class Demo():
     def __init__(self):
@@ -169,13 +170,13 @@ class Demo():
     def run(self):
         self.forward()
         self.combine_textures()
-        os.system('blender --background --python render.py -- --body_mesh {} --up_tex {} --up_mesh {} --low_mesh {} --low_tex {} --renderfolder {}'.format(
-           self.opt.body_mesh, self.opt.tex_loc_up, self.opt.up_mesh, self.opt.low_mesh, self.opt.tex_loc_low, self.opt.video
+        os.system('blender --background --python render.py -- --body_tex {} --body_mesh {} --up_tex {} --up_mesh {} --low_mesh {} --low_tex {} --renderfolder {}'.format(
+           self.opt.body_tex,self.opt.body_mesh, self.opt.tex_loc_up, self.opt.up_mesh, self.opt.low_mesh, self.opt.tex_loc_low, self.opt.video
         ))
 
         self.make_video()
-        os.system('rm -r {}'.format(self.opt.output))
-        os.system('rm -r {}'.format(self.opt.video))
+        os.system('rm -r {}/* '.format(self.opt.output))
+        os.system('rm -r {}/*'.format(self.opt.video))
 
 
 
