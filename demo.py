@@ -76,11 +76,11 @@ class Demo():
         for s in list(self.opt.gpus):
             if (s.isdigit()):
                 gpus.append(int(s))
-        if gpus[0] == -1:
+       
+        if self.opt.gpus == "-1":
             self.device = torch.device("cpu")
         else:
             self.device = torch.device("cuda", index=gpus[0])
-
         self.opt.gpu_ids = gpus
 
     def read_images(self, image_path):
@@ -113,10 +113,10 @@ class Demo():
         dict = ['up_front', 'up_back', 'low_front', 'low_back']
         for val in dict:
             map_net_pth = getattr(self.opt, 'map_'+ val)
-            self.net_map.load_state_dict(torch.load(map_net_pth))
+            self.net_map.load_state_dict(torch.load(map_net_pth,map_location=self.device))
 
             seg_net_pth = getattr(self.opt, 'seg_'+val)
-            self.net_seg.load_state_dict(torch.load(seg_net_pth))
+            self.net_seg.load_state_dict(torch.load(seg_net_pth,map_location=self.device))
 
             self.net_seg.to(self.device)
             self.net_seg.eval()
